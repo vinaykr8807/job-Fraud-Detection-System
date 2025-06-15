@@ -53,6 +53,7 @@ interface CSVResult {
       max: number
     }
   }
+  originalRows?: number
 }
 
 type ResultData = SingleResult | CSVResult
@@ -221,6 +222,36 @@ export default function ResultsPage() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Processing Information */}
+        <Card className="bg-gray-50 dark:bg-gray-900/20 border-gray-200 dark:border-gray-700">
+          <CardContent className="p-6">
+            <div className="grid md:grid-cols-3 gap-4 text-center">
+              <div>
+                <div className="text-2xl font-bold text-blue-600">{data.originalRows || "N/A"}</div>
+                <div className="text-gray-600 dark:text-gray-300">Original CSV Rows</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-green-600">{summary.total}</div>
+                <div className="text-gray-600 dark:text-gray-300">Successfully Processed</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-orange-600">
+                  {data.originalRows ? ((summary.total / data.originalRows) * 100).toFixed(1) : "N/A"}%
+                </div>
+                <div className="text-gray-600 dark:text-gray-300">Processing Success Rate</div>
+              </div>
+            </div>
+            {data.originalRows && summary.total < data.originalRows && (
+              <div className="mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
+                <div className="text-yellow-800 dark:text-yellow-200 text-sm">
+                  <strong>Note:</strong> {data.originalRows - summary.total} rows were skipped due to insufficient text
+                  content or parsing errors.
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
 
         {/* Main Visualizations */}
         <div className="grid md:grid-cols-2 gap-8">
