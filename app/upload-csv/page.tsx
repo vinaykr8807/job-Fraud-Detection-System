@@ -18,7 +18,6 @@ export default function UploadCSVPage() {
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
       setFile(acceptedFiles[0])
-      setError(null)
     }
   }, [])
 
@@ -29,9 +28,6 @@ export default function UploadCSVPage() {
       "application/vnd.ms-excel": [".csv"],
     },
     multiple: false,
-    onDropRejected: () => {
-      setError("Please upload a valid CSV file")
-    },
   })
 
   const parseCSVContent = (csvText: string) => {
@@ -309,19 +305,19 @@ export default function UploadCSVPage() {
           <ThemeToggle />
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-8">
-          {/* Error Display */}
-          {error && (
-            <Card className="border-red-200 bg-red-50 dark:bg-red-900/20">
-              <CardContent className="p-4">
-                <div className="flex items-center space-x-2 text-red-800 dark:text-red-200">
-                  <AlertCircle className="h-5 w-5" />
-                  <span className="font-medium">Error: {error}</span>
-                </div>
-              </CardContent>
-            </Card>
-          )}
+        {/* Error Display */}
+        {error && (
+          <Card className="border-red-200 bg-red-50 dark:bg-red-900/20">
+            <CardContent className="p-4">
+              <div className="flex items-center space-x-2 text-red-800 dark:text-red-200">
+                <AlertCircle className="h-5 w-5" />
+                <span className="font-medium">Error: {error}</span>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
+        <div className="max-w-4xl mx-auto space-y-8">
           {/* Upload Section */}
           <Card>
             <CardHeader>
@@ -391,15 +387,10 @@ export default function UploadCSVPage() {
                       • <code className="bg-gray-100 dark:bg-gray-800 px-1 rounded">title</code> - Job title
                     </li>
                     <li>
-                      • <code className="bg-gray-100 dark:bg-gray-800 px-1 rounded">description</code> - Job description
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-3 text-gray-900 dark:text-white">Optional Columns:</h4>
-                  <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                    <li>
                       • <code className="bg-gray-100 dark:bg-gray-800 px-1 rounded">location</code> - Job location
+                    </li>
+                    <li>
+                      • <code className="bg-gray-100 dark:bg-gray-800 px-1 rounded">description</code> - Job description
                     </li>
                     <li>
                       • <code className="bg-gray-100 dark:bg-gray-800 px-1 rounded">company_profile</code> - Company
@@ -414,6 +405,34 @@ export default function UploadCSVPage() {
                     </li>
                   </ul>
                 </div>
+                <div>
+                  <h4 className="font-semibold mb-3 text-gray-900 dark:text-white">Optional Columns:</h4>
+                  <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                    <li>
+                      • <code className="bg-gray-100 dark:bg-gray-800 px-1 rounded">employment_type</code> - Employment
+                      type
+                    </li>
+                    <li>
+                      • <code className="bg-gray-100 dark:bg-gray-800 px-1 rounded">required_experience</code> -
+                      Experience level
+                    </li>
+                    <li>
+                      • <code className="bg-gray-100 dark:bg-gray-800 px-1 rounded">required_education</code> -
+                      Education level
+                    </li>
+                    <li>
+                      • <code className="bg-gray-100 dark:bg-gray-800 px-1 rounded">industry</code> - Industry sector
+                    </li>
+                    <li>
+                      • <code className="bg-gray-100 dark:bg-gray-800 px-1 rounded">telecommuting</code> - Remote work
+                      (1/0)
+                    </li>
+                    <li>
+                      • <code className="bg-gray-100 dark:bg-gray-800 px-1 rounded">has_company_logo</code> - Has logo
+                      (1/0)
+                    </li>
+                  </ul>
+                </div>
               </div>
 
               <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
@@ -422,9 +441,12 @@ export default function UploadCSVPage() {
                   <span className="font-medium text-blue-900 dark:text-blue-100">Sample CSV Template</span>
                 </div>
                 <p className="text-sm text-blue-800 dark:text-blue-200">
-                  The system will work with any CSV containing job data. At minimum, include 'title' and 'description'
-                  columns.
+                  Download our sample CSV template to ensure your file is formatted correctly.
                 </p>
+                <Button variant="outline" size="sm" className="mt-2">
+                  <Download className="mr-2 h-4 w-4" />
+                  Download Template
+                </Button>
               </div>
             </CardContent>
           </Card>

@@ -15,6 +15,16 @@ interface CustomBarChartProps {
 }
 
 export function CustomBarChart({ data, xKey, yKey, title, color = "#3b82f6" }: CustomBarChartProps) {
+  console.log("CustomBarChart data:", data) // Debug log
+
+  if (!data || data.length === 0) {
+    return (
+      <div className="w-full h-[300px] flex items-center justify-center">
+        <p className="text-gray-500">No data available</p>
+      </div>
+    )
+  }
+
   return (
     <div className="w-full h-[300px]">
       <ResponsiveContainer width="100%" height="100%">

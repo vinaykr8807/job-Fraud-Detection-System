@@ -35,6 +35,16 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 }
 
 export function CustomPieChart({ data, title }: CustomPieChartProps) {
+  console.log("CustomPieChart data:", data) // Debug log
+
+  if (!data || data.length === 0) {
+    return (
+      <div className="w-full h-[300px] flex items-center justify-center">
+        <p className="text-gray-500">No data available</p>
+      </div>
+    )
+  }
+
   return (
     <div className="w-full h-[300px]">
       <ResponsiveContainer width="100%" height="100%">
